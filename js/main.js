@@ -41,7 +41,7 @@ $botonCalcularEdades.onclick = function() {
     edades.push(Number($edadesFamiliares[i].value));
   }
 
-  manejarEdades(edades);
+  edades.length >= 2 ? manejarEdades(edades) : alert('Ingresá al menos dos edades');
 }
 
 function manejarEdades(edades) {

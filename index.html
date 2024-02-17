@@ -4,10 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculador Familiar</title>
-  <link rel="stylesheet" src="css/main.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+  <header>
+    <h1>Calculador Familiar</h1>
+  </header>
 
+  <main>
+    <form>
+      <label for="pregunta-grupo-familiar">Cuantas personas hay en tu grupo familiar? </label>
+      <input type="number" min="1" id="cantidad-familiares">
+      <button type="button" id="crear-familiares">Ingresar</button>
+    </form>
+
+    <section id='familiares'></section>
+
+    <button type="button" id="calcular-edades" class="ocultar">Calcular Edades</button>
+
+    <section id="calculos-edades">
+        <p id="mayor-edad"></p>
+        <p id="menor-edad"></p>
+        <p id="promedio-edades"></p>
+    </section>
+  </main>
   <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

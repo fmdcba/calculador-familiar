@@ -1,27 +1,30 @@
 const $botonIngresar = document.querySelector('#crear-familiares');
 const $botonCalcularEdades = document.querySelector('#calcular-edades');
+const $botonReiniciar = document.querySelector('#reiniciar');
 
 $botonIngresar.onclick = function() {
   const cantidadFamiliares = Number(document.querySelector('#cantidad-familiares').value);
   const $botonCalcularEdades = document.querySelector('#calcular-edades');
 
   for (let i = 0; i < cantidadFamiliares; i++) {
-    const familiarTexto = document.createElement('label');
-    const familiarEdad = document.createElement('input');
-    const campoFamiliar = document.createElement('div');
+    const $familiarTexto = document.createElement('label');
+    const $familiarEdad = document.createElement('input');
+    const $campoFamiliar = document.createElement('div');
     const $contenedorFamiliares = document.querySelector('#familiares');
-    familiarTexto.textContent = `Familiar Nº ${i + 1}:`;
-    familiarEdad.type = 'number';
-    familiarEdad.placeholder = 'Ingresar Edad';
-    familiarEdad.className = 'edades'
+    $campoFamiliar.className = 'familiar';
+    $familiarTexto.textContent = `Familiar Nº ${i + 1}:`;
+    $familiarEdad.type = 'number';
+    $familiarEdad.placeholder = 'Ingresar Edad';
+    $familiarEdad.className = 'edades'
 
-    campoFamiliar.appendChild(familiarTexto);
-    campoFamiliar.appendChild(familiarEdad);
-    $contenedorFamiliares.appendChild(campoFamiliar);
+    $campoFamiliar.appendChild($familiarTexto);
+    $campoFamiliar.appendChild($familiarEdad);
+    $contenedorFamiliares.appendChild($campoFamiliar);
   }
 
   if (cantidadFamiliares > 0) {
     $botonIngresar.className = 'ocultar';
+    $botonReiniciar.className = '';
     $botonCalcularEdades.className = '';
   } else {
     alert('Ingresá al menos un familiar');
@@ -87,4 +90,21 @@ function obtenerPromedio(numeros) {
   }
 
   return Math.floor(numerosSumados / numeros.length)
+}
+
+$botonReiniciar.onclick = function (){
+  $botonIngresar.className = ''
+  $botonReiniciar.className = 'ocultar'
+  $botonCalcularEdades.className = 'ocultar'
+
+  document.querySelector('#mayor-edad').textContent = '';
+  document.querySelector('#menor-edad').textContent = '';
+  document.querySelector('#promedio-edades').textContent = '';
+
+  const $familiares = document.querySelectorAll('.familiar');
+
+
+  for (let i = 0; i < $familiares.length; i++){
+    $familiares[i].remove();
+  }
 }

@@ -10,15 +10,20 @@ $botonIngresar.onclick = function() {
     const $familiarTexto = document.createElement('label');
     const $familiarEdad = document.createElement('input');
     const $campoFamiliar = document.createElement('div');
+    const $botonSalario = document.createElement('button');
     const $contenedorFamiliares = document.querySelector('#familiares');
     $campoFamiliar.className = 'familiar';
     $familiarTexto.textContent = `Familiar Nº ${i + 1}:`;
     $familiarEdad.type = 'number';
     $familiarEdad.placeholder = 'Ingresar Edad';
-    $familiarEdad.className = 'edades'
+    $familiarEdad.className = 'edades';
+    $botonSalario.textContent = 'Agregar Salario';
+    $botonSalario.className = `boton-salario`
+    $botonSalario.id = `boton-agregar-${i}`
 
     $campoFamiliar.appendChild($familiarTexto);
     $campoFamiliar.appendChild($familiarEdad);
+    $campoFamiliar.appendChild($botonSalario);
     $contenedorFamiliares.appendChild($campoFamiliar);
   }
 
@@ -29,6 +34,8 @@ $botonIngresar.onclick = function() {
   } else {
     alert('Ingresá al menos un familiar');
   }
+
+  manejarBotonesAgregarSalarios();
 
   return false;
 }
@@ -107,4 +114,73 @@ $botonReiniciar.onclick = function (){
   for (let i = 0; i < $familiares.length; i++){
     $familiares[i].remove();
   }
+}
+
+function manejarBotonesAgregarSalarios(){
+  const $botonesSalario = document.querySelectorAll('.boton-salario');
+
+  for (let i  = 0; i < $botonesSalario.length; i++) {
+    $botonesSalario[i].onclick = function() {
+      agregarSalarios($botonesSalario[i],i);
+
+      return false;
+    }
+  }
+}
+
+function agregarSalarios(boton, i){
+  boton.className = 'ocultar';
+  const $textoSalario = document.createElement('label');
+  const $campoSalario = document.createElement('input');
+  const $botonCancelar = document.createElement('button');
+  $textoSalario.textContent = 'Salario Anual: $';
+  $textoSalario.id = `texto-salario-${i}`;
+  $campoSalario.type = 'number';
+  $campoSalario.id = `campo-salario-${i}`;
+  $botonCancelar.textContent = 'Cancelar';
+  $botonCancelar.id = i;
+  $botonCancelar.className = 'boton-cancelar-salario'
+
+  const $camposFamiliar = document.querySelectorAll('.familiar');
+
+  for (i; i < $camposFamiliar.length; i++) {
+    $camposFamiliar[i].appendChild($textoSalario);
+    $camposFamiliar[i].appendChild($campoSalario);
+    $camposFamiliar[i].appendChild($botonCancelar);
+
+    break;
+  }
+
+  manejarBotonesCancelarSalario();
+}
+
+function manejarBotonesCancelarSalario(){
+  const $botonesCancelarSalario = document.querySelectorAll('.boton-cancelar-salario');
+  contador = 0;
+
+  for(let i = 0; i < $botonesCancelarSalario.length; i++) {
+    $botonesCancelarSalario[i].onclick = function() {
+      const $idBotonCancelar = Number($botonesCancelarSalario[i].id)
+
+
+      while (contador !== $idBotonCancelar) {
+        contador++;
+      }
+
+      if (contador === $idBotonCancelar) {
+        removerCamposSalario(contador, $botonesCancelarSalario[i]);
+      }
+    }
+  }
+}
+
+function removerCamposSalario(numero, boton) {
+  const $textoSalarioARemover = document.querySelector(`#texto-salario-${numero}`);
+  const $campoSalarioARemover = document.querySelector(`#campo-salario-${numero}`);
+
+  $textoSalarioARemover.remove();
+  $campoSalarioARemover.remove();
+  boton.remove();
+
+  document.querySelector(`#boton-agregar-${numero}`).className = '';
 }

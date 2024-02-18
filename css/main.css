@@ -1,3 +1,7 @@
 .ocultar {
   display: none;
 }
+
+html {
+  background-color: silver;
+}

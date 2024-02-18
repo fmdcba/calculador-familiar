@@ -227,8 +227,8 @@ function manejarSalarios(salarios){
     salariosMensuales.push(salarios[i] / 12);
   }
 
-  $contenedorSalarioMayor.textContent = `El mayor salario es: ${obtenerMayorNumero(salarios)}`;
-  $contenedorSalarioMenor.textContent = `El menor salario es: ${obtenerMenorNumero(salarios)}`;
-  $contenedorSalarioPromedioAnual.textContent = `El promedio de salarios anual es: ${obtenerPromedio(salarios)} (aproximadamente)`;
-  $contenedorSalarioPromedioMensual.textContent = `El mayor salarios mensual es: ${obtenerPromedio(salariosMensuales)} (aproximadamente)`;
+  $contenedorSalarioMayor.textContent = `El mayor salario es: $${obtenerMayorNumero(salarios)}`;
+  $contenedorSalarioMenor.textContent = `El menor salario es: $${obtenerMenorNumero(salarios)}`;
+  $contenedorSalarioPromedioAnual.textContent = `El promedio de salarios anual es: $${obtenerPromedio(salarios)} (aproximadamente)`;
+  $contenedorSalarioPromedioMensual.textContent = `El mayor salarios mensual es: $${obtenerPromedio(salariosMensuales)} (aproximadamente)`;
 }

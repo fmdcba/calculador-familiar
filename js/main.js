@@ -120,11 +120,12 @@ $botonReiniciar.onclick = function (){
 
 function manejarBotonesAgregarSalarios(){
   const $botonesSalario = document.querySelectorAll('.boton-salario');
+  const $botonCalcularSalarios = document.querySelector('#calcular-salarios')
 
   for (let i  = 0; i < $botonesSalario.length; i++) {
     $botonesSalario[i].onclick = function() {
       agregarSalarios($botonesSalario[i],i);
-
+      $botonCalcularSalarios.className = '';
       return false;
     }
   }
@@ -186,4 +187,14 @@ function removerCamposSalario(numero, boton) {
   boton.remove();
 
   document.querySelector(`#boton-agregar-${numero}`).className = '';
+
+  $botonesCancelarRestantes = document.querySelectorAll('.boton-cancelar-salario')
+
+  if ($botonesCancelarRestantes.length === 0) {
+    document.querySelector('#calcular-salarios').className = 'ocultar';
+  }
+}
+
+function calcularSalarios(){
+
 }

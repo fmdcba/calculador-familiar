@@ -45,7 +45,9 @@ $botonCalcularEdades.onclick = function() {
   const edades = [];
 
   for (let i = 0; i < $edadesFamiliares.length; i++) {
-    edades.push(Number($edadesFamiliares[i].value));
+    if ($edadesFamiliares[i].value) {
+      edades.push(Number($edadesFamiliares[i].value));
+    }
   }
 
   edades.length >= 2 ? manejarEdades(edades) : alert('Ingresá al menos dos edades');

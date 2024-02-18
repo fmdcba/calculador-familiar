@@ -83,7 +83,7 @@ function obtenerMenorNumero(numeros) {
   let menorNumero = numeros[0];
 
   for (let i = 0; i < numeros.length; i++) {
-    if (menorNumero < numeros[i]) {
+    if (menorNumero > numeros[i]) {
       menorNumero = numeros[i]
     }
   }

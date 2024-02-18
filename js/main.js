@@ -103,13 +103,19 @@ function obtenerPromedio(numeros) {
 }
 
 $botonReiniciar.onclick = function (){
-  $botonIngresar.className = ''
-  $botonReiniciar.className = 'ocultar'
-  $botonCalcularEdades.className = 'ocultar'
+  $botonIngresar.className = '';
+  $botonReiniciar.className = 'ocultar';
+  $botonCalcularEdades.className = 'ocultar';
+  $botonCalcularSalarios.className = 'ocultar';
 
   document.querySelector('#mayor-edad').textContent = '';
   document.querySelector('#menor-edad').textContent = '';
   document.querySelector('#promedio-edad').textContent = '';
+  document.querySelector('#mayor-salario').textContent = '';
+  document.querySelector('#menor-salario').textContent = '';
+  document.querySelector('#promedio-salario-anual').textContent = '';
+  document.querySelector('#promedio-salario-mensual').textContent = '';
+
 
   const $familiares = document.querySelectorAll('.familiar');
 

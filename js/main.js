@@ -1,6 +1,7 @@
 const $botonIngresar = document.querySelector('#crear-familiares');
 const $botonCalcularEdades = document.querySelector('#calcular-edades');
 const $botonReiniciar = document.querySelector('#reiniciar');
+const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
 
 $botonIngresar.onclick = function() {
   const cantidadFamiliares = Number(document.querySelector('#cantidad-familiares').value);
@@ -56,7 +57,7 @@ $botonCalcularEdades.onclick = function() {
 function manejarEdades(edades) {
   const $contendorMayorEdad = document.querySelector('#mayor-edad');
   const $contendorMenorEdad = document.querySelector('#menor-edad');
-  const $contendorPromedioEdades = document.querySelector('#promedio-edades');
+  const $contendorPromedioEdades = document.querySelector('#promedio-edad');
 
   const mayorEdad = obtenerMayorNumero(edades);
   const menorEdad = obtenerMenorNumero(edades);
@@ -108,7 +109,7 @@ $botonReiniciar.onclick = function (){
 
   document.querySelector('#mayor-edad').textContent = '';
   document.querySelector('#menor-edad').textContent = '';
-  document.querySelector('#promedio-edades').textContent = '';
+  document.querySelector('#promedio-edad').textContent = '';
 
   const $familiares = document.querySelectorAll('.familiar');
 
@@ -140,6 +141,7 @@ function agregarSalarios(boton, i){
   $textoSalario.id = `texto-salario-${i}`;
   $campoSalario.type = 'number';
   $campoSalario.id = `campo-salario-${i}`;
+  $campoSalario.className = `campo-salario`;
   $botonCancelar.textContent = 'Cancelar';
   $botonCancelar.id = i;
   $botonCancelar.className = 'boton-cancelar-salario'
@@ -195,6 +197,32 @@ function removerCamposSalario(numero, boton) {
   }
 }
 
-function calcularSalarios(){
+$botonCalcularSalarios.onclick = function () {
+  const $salariosIngresados = document.querySelectorAll('.campo-salario');
+  const salarios = [];
 
+  for (let i = 0; i < $salariosIngresados.length; i++) {
+    if ($salariosIngresados[i].value) {
+      salarios.push(Number($salariosIngresados[i].value))
+    }
+  }
+
+  salarios.length >= 2 ? manejarSalarios(salarios) : alert('Ingresa al menos dos salarios')
+}
+
+function manejarSalarios(salarios){
+  const $contenedorSalarioMayor = document.querySelector('#mayor-salario');
+  const $contenedorSalarioMenor = document.querySelector('#menor-salario');
+  const $contenedorSalarioPromedioAnual = document.querySelector('#promedio-salario-anual');
+  const $contenedorSalarioPromedioMensual = document.querySelector('#promedio-salario-mensual');
+  let salariosMensuales = [];
+
+  for (let i = 0; i < salarios.length; i++) {
+    salariosMensuales.push(salarios[i] / 12);
+  }
+
+  $contenedorSalarioMayor.textContent = `El mayor salario es: ${obtenerMayorNumero(salarios)}`;
+  $contenedorSalarioMenor.textContent = `El menor salario es: ${obtenerMenorNumero(salarios)}`;
+  $contenedorSalarioPromedioAnual.textContent = `El promedio de salarios anual es: ${obtenerPromedio(salarios)} (aproximadamente)`;
+  $contenedorSalarioPromedioMensual.textContent = `El mayor salarios mensual es: ${obtenerPromedio(salariosMensuales)} (aproximadamente)`;
 }

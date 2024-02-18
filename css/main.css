@@ -1,7 +1,60 @@
+html {
+  background-color: silver;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  padding-left: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#resultados {
+  display: grid;
+  grid-auto-flow: column;
+  font-weight: bolder;
+  font-size: larger;
+}
+
 .ocultar {
   display: none;
 }
 
-html {
-  background-color: silver;
+h1 {
+  background-color: darkblue;
+  color: white;
+  width: 35%;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.5em;
+  text-align: center;
+}
+
+label {
+  margin: 0.5em;
+  font-size: large;
+  font-weight: bold;
+}
+
+p {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: black;
+  font-style: oblique;
+}
+
+button {
+  border-radius: 1px;
+  font-size: large;
+  background-color: darkblue;
+  color: white;
+  border-color: navy;
+}
+
+div {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+input {
+  margin: 0.5em
 }

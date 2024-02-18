@@ -169,6 +169,7 @@ function manejarBotonesCancelarSalario(){
 
       if (contador === $idBotonCancelar) {
         removerCamposSalario(contador, $botonesCancelarSalario[i]);
+        contador = 0;
       }
     }
   }

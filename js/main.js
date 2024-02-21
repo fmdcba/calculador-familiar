@@ -4,41 +4,55 @@ const $botonReiniciar = document.querySelector('#reiniciar');
 const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
 
 $botonIngresar.onclick = function() {
-  const cantidadFamiliares = Number(document.querySelector('#cantidad-familiares').value);
-  const $botonCalcularEdades = document.querySelector('#calcular-edades');
+  const $cantidadFamiliares = document.querySelector('#cantidad-familiares');
+  const cantidadFamiliares = Number($cantidadFamiliares.value);
 
-  for (let i = 0; i < cantidadFamiliares; i++) {
-    const $familiarTexto = document.createElement('label');
-    const $familiarEdad = document.createElement('input');
-    const $campoFamiliar = document.createElement('div');
-    const $botonSalario = document.createElement('button');
-    const $contenedorFamiliares = document.querySelector('#familiares');
-    $campoFamiliar.className = 'familiar';
-    $familiarTexto.textContent = `Familiar Nº ${i + 1}:`;
-    $familiarEdad.type = 'number';
-    $familiarEdad.placeholder = 'Ingresar Edad';
-    $familiarEdad.className = 'edades';
-    $botonSalario.textContent = 'Agregar Salario';
-    $botonSalario.className = `boton-salario`
-    $botonSalario.id = `boton-agregar-${i}`
+  crearFamiliares(cantidadFamiliares);
+  manejarBotonesAgregarSalarios();
 
-    $campoFamiliar.appendChild($familiarTexto);
-    $campoFamiliar.appendChild($familiarEdad);
-    $campoFamiliar.appendChild($botonSalario);
-    $contenedorFamiliares.appendChild($campoFamiliar);
-  }
+  return false;
+}
+
+function crearFamiliares(cantidadFamiliares){
 
   if (cantidadFamiliares > 0) {
     $botonIngresar.className = 'ocultar';
     $botonReiniciar.className = '';
+
+    const $botonCalcularEdades = document.querySelector('#calcular-edades');
     $botonCalcularEdades.className = '';
+
+    for (let i = 0; i < cantidadFamiliares; i++){
+      crearFamiliar(i);
+    }
   } else {
-    alert('Ingresá al menos un familiar');
+    alert('Ingresá al menos dos familiares para luego poder calcular');
   }
+}
 
-  manejarBotonesAgregarSalarios();
+function crearFamiliar(indice){
+  const $campoFamiliar = document.createElement('div');
+  $campoFamiliar.className = 'familiar';
 
-  return false;
+  const $familiarTexto = document.createElement('label');
+  $familiarTexto.textContent = `Familiar Nº ${indice + 1}:`;
+
+  const $familiarEdad = document.createElement('input');
+  $familiarEdad.type = 'number';
+  $familiarEdad.placeholder = 'Ingresar Edad';
+  $familiarEdad.className = 'edades';
+
+  const $botonSalario = document.createElement('button');
+  $botonSalario.textContent = 'Agregar Salario';
+  $botonSalario.className = `boton-salario`
+  $botonSalario.id = `boton-agregar-${indice}`
+
+  $campoFamiliar.appendChild($familiarTexto);
+  $campoFamiliar.appendChild($familiarEdad);
+  $campoFamiliar.appendChild($botonSalario);
+
+  const $contenedorFamiliares = document.querySelector('#familiares');
+  $contenedorFamiliares.appendChild($campoFamiliar);
 }
 
 $botonCalcularEdades.onclick = function() {

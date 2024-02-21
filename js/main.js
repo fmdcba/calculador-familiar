@@ -3,14 +3,14 @@ const $botonCalcularEdades = document.querySelector('#calcular-edades');
 const $botonReiniciar = document.querySelector('#reiniciar');
 const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
 
-$botonIngresar.onclick = function() {
+$botonIngresar.onclick = function(e) {
   const $cantidadFamiliares = document.querySelector('#cantidad-familiares');
   const cantidadFamiliares = Number($cantidadFamiliares.value);
 
   crearFamiliares(cantidadFamiliares);
-  manejarBotonesAgregarSalarios();
+  AgregarSalarios();
 
-  return false;
+  e.preventDefault()
 }
 
 function crearFamiliares(cantidadFamiliares){
@@ -42,14 +42,14 @@ function crearFamiliar(indice){
   $familiarEdad.placeholder = 'Ingresar Edad';
   $familiarEdad.className = 'edades';
 
-  const $botonSalario = document.createElement('button');
-  $botonSalario.textContent = 'Agregar Salario';
-  $botonSalario.className = `boton-salario`
-  $botonSalario.id = `boton-agregar-${indice}`
+  const $botonAgregarSalario = document.createElement('button');
+  $botonAgregarSalario.textContent = 'Agregar Salario';
+  $botonAgregarSalario.className = `boton-salario`
+  $botonAgregarSalario.id = `boton-agregar-${indice}`
 
   $campoFamiliar.appendChild($familiarTexto);
   $campoFamiliar.appendChild($familiarEdad);
-  $campoFamiliar.appendChild($botonSalario);
+  $campoFamiliar.appendChild($botonAgregarSalario);
 
   const $contenedorFamiliares = document.querySelector('#familiares');
   $contenedorFamiliares.appendChild($campoFamiliar);
@@ -139,7 +139,7 @@ $botonReiniciar.onclick = function (){
   }
 }
 
-function manejarBotonesAgregarSalarios(){
+function AgregarSalarios(){
   const $botonesSalario = document.querySelectorAll('.boton-salario');
   const $botonCalcularSalarios = document.querySelector('#calcular-salarios')
 

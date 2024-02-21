@@ -6,7 +6,7 @@ document.querySelector('#crear-familiares').onclick = function(e) {
   manejarSalarios();
 
 
-  e.preventDefault()
+  e.preventDefault();
 }
 
 function crearFamiliares(cantidadFamiliares){
@@ -38,7 +38,7 @@ function crearFamiliar(indice){
 
   const $botonAgregarSalario = document.createElement('button');
   $botonAgregarSalario.textContent = 'Agregar Salario';
-  $botonAgregarSalario.className = `boton-salario`
+  $botonAgregarSalario.className = `boton-salario`;
   $botonAgregarSalario.id = `boton-agregar-${indice}`
 
   $campoFamiliar.appendChild($familiarTexto);
@@ -51,16 +51,16 @@ function crearFamiliar(indice){
 
 document.querySelector('#calcular-edades').onclick = function(e) {
   const numeros = obtenerNumeros('edades');
-  const tipo = 'edad'
+  const tipo = 'edad';
 
   if (numeros.length >= 2) {
     insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
     insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
     insertarValor('promedio', tipo, obtenerPromedio(numeros));
 
-    mostrarElemento('resultado-edades')
+    mostrarElemento('resultado-edades');
   } else {
-    alert('Por favor, ingresá al menos dos edades para relizar los calculos')
+    alert('Por favor, ingresá al menos dos edades para relizar los calculos');
   }
 
   e.preventDefault()
@@ -122,14 +122,14 @@ function manejarSalarios(){
       crearSalarios(i);
       mostrarElemento('calcular-salarios');
 
-      e.preventDefault()
+      e.preventDefault();
     }
   }
 }
 
 function crearSalarios(indice){
   ocultarElemento(`boton-agregar-${indice}`);
-  crearSalario(indice)
+  crearSalario(indice);
 
   manejarBotonesCancelarSalario();
 }
@@ -147,7 +147,7 @@ function crearSalario(indice){
   const $botonCancelar = document.createElement('button');
   $botonCancelar.textContent = 'Cancelar';
   $botonCancelar.id = indice;
-  $botonCancelar.className = 'boton-cancelar-salario'
+  $botonCancelar.className = 'boton-cancelar-salario';
 
   const $camposFamiliar = document.querySelectorAll('.familiar');
   let campoAgregado = false;
@@ -165,8 +165,7 @@ function manejarBotonesCancelarSalario(){
 
   for(let i = 0; i < $botonesCancelarSalario.length; i++) {
     $botonesCancelarSalario[i].onclick = function() {
-      const $idBotonCancelar = Number($botonesCancelarSalario[i].id)
-
+      const $idBotonCancelar = Number($botonesCancelarSalario[i].id);
 
       while (contador !== $idBotonCancelar) {
         contador++;
@@ -190,7 +189,7 @@ function removerCamposSalario(numero, boton) {
 
   mostrarElemento(`boton-agregar-${numero}`);
 
-  $botonesCancelarRestantes = document.querySelectorAll('.boton-cancelar-salario')
+  $botonesCancelarRestantes = document.querySelectorAll('.boton-cancelar-salario');
 
   if ($botonesCancelarRestantes.length === 0) {
     ocultarElemento('#calcular-salarios');
@@ -203,18 +202,18 @@ document.querySelector('#calcular-salarios').onclick = function (e) {
   const tipo = 'salario';
 
   for (let i = 0; i < numeros.length; i++) {
-    numerosParaSalarioMensual.push(numeros[i] / 12)
+    numerosParaSalarioMensual.push(numeros[i] / 12);
   }
 
-  if (numeros.length >= 2  ) {
+  if (numeros.length >= 2 ) {
     insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
     insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
     insertarValor('promedio-anual', tipo, obtenerPromedio(numeros));
     insertarValor('promedio-mensual', tipo, obtenerPromedio(numerosParaSalarioMensual));
 
-    mostrarElemento('resultado-salarios')
+    mostrarElemento('resultado-salarios');
   } else {
-    alert('Ingresa al menos dos salarios')
+    alert('Ingresa al menos dos salarios');
   }
 
   e.preventDefault();

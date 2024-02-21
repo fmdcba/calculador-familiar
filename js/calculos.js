@@ -29,5 +29,5 @@ function obtenerPromedio(numeros) {
     numerosSumados += numeros[i];
   }
 
-  return Math.floor(numerosSumados / numeros.length)
+  return (numerosSumados / numeros.length).toFixed(2)
 }

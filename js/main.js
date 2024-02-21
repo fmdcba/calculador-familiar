@@ -3,7 +3,8 @@ document.querySelector('#crear-familiares').onclick = function(e) {
   const cantidadFamiliares = Number($cantidadFamiliares.value);
 
   crearFamiliares(cantidadFamiliares);
-  agregarSalarios();
+  manejarSalarios();
+
 
   e.preventDefault()
 }
@@ -11,9 +12,9 @@ document.querySelector('#crear-familiares').onclick = function(e) {
 function crearFamiliares(cantidadFamiliares){
 
   if (cantidadFamiliares > 0) {
-    ocultarElemento('crear-familiares');
     mostrarElemento('reiniciar');
     mostrarElemento('calcular-edades');
+    ocultarElemento('crear-familiares');
 
     for (let i = 0; i < cantidadFamiliares; i++){
       crearFamiliar(i);
@@ -113,44 +114,49 @@ document.querySelector('#reiniciar').onclick = function (){
   }
 }
 
-function agregarSalarios(){
+function manejarSalarios(){
   const $botonesSalario = document.querySelectorAll('.boton-salario');
-  const $botonCalcularSalarios = document.querySelector('#calcular-salarios')
 
   for (let i  = 0; i < $botonesSalario.length; i++) {
-    $botonesSalario[i].onclick = function() {
-      agregarSalario($botonesSalario[i],i);
-      $botonCalcularSalarios.className = '';
-      return false;
+    $botonesSalario[i].onclick = function(e) {
+      crearSalarios(i);
+      mostrarElemento('calcular-salarios');
+
+      e.preventDefault()
     }
   }
 }
 
-function agregarSalario(boton, i){
-  boton.className = 'ocultar';
+function crearSalarios(indice){
+  ocultarElemento(`boton-agregar-${indice}`);
+  crearSalario(indice)
+
+  manejarBotonesCancelarSalario();
+}
+
+function crearSalario(indice){
   const $textoSalario = document.createElement('label');
-  const $campoSalario = document.createElement('input');
-  const $botonCancelar = document.createElement('button');
   $textoSalario.textContent = 'Salario Anual: $';
-  $textoSalario.id = `texto-salario-${i}`;
+  $textoSalario.id = `texto-salario-${indice}`;
+
+  const $campoSalario = document.createElement('input');
   $campoSalario.type = 'number';
-  $campoSalario.id = `campo-salario-${i}`;
-  $campoSalario.className = `campo-salario`;
+  $campoSalario.id = `campo-salario-${indice}`;
+  $campoSalario.className = `salarios`;
+
+  const $botonCancelar = document.createElement('button');
   $botonCancelar.textContent = 'Cancelar';
-  $botonCancelar.id = i;
+  $botonCancelar.id = indice;
   $botonCancelar.className = 'boton-cancelar-salario'
 
   const $camposFamiliar = document.querySelectorAll('.familiar');
+  let campoAgregado = false;
 
-  for (i; i < $camposFamiliar.length; i++) {
-    $camposFamiliar[i].appendChild($textoSalario);
-    $camposFamiliar[i].appendChild($campoSalario);
-    $camposFamiliar[i].appendChild($botonCancelar);
-
-    break;
+  for (indice; campoAgregado === false; campoAgregado = true) {
+    $camposFamiliar[indice].appendChild($textoSalario);
+    $camposFamiliar[indice].appendChild($campoSalario);
+    $camposFamiliar[indice].appendChild($botonCancelar);
   }
-
-  manejarBotonesCancelarSalario();
 }
 
 function manejarBotonesCancelarSalario(){
@@ -182,41 +188,34 @@ function removerCamposSalario(numero, boton) {
   $campoSalarioARemover.remove();
   boton.remove();
 
-  document.querySelector(`#boton-agregar-${numero}`).className = '';
+  mostrarElemento(`boton-agregar-${numero}`);
 
   $botonesCancelarRestantes = document.querySelectorAll('.boton-cancelar-salario')
 
   if ($botonesCancelarRestantes.length === 0) {
-    document.querySelector('#calcular-salarios').className = 'ocultar';
+    ocultarElemento('#calcular-salarios');
   }
 }
 
-document.querySelector('#calcular-salarios').onclick = function () {
-  const $salariosIngresados = document.querySelectorAll('.campo-salario');
-  const salarios = [];
+document.querySelector('#calcular-salarios').onclick = function (e) {
+  const numeros = obtenerNumeros('salarios');
+  const numerosParaSalarioMensual=[];
+  const tipo = 'salario';
 
-  for (let i = 0; i < $salariosIngresados.length; i++) {
-    if ($salariosIngresados[i].value) {
-      salarios.push(Number($salariosIngresados[i].value))
-    }
+  for (let i = 0; i < numeros.length; i++) {
+    numerosParaSalarioMensual.push(numeros[i] / 12)
   }
 
-  salarios.length >= 2 ? manejarSalarios(salarios) : alert('Ingresa al menos dos salarios')
-}
+  if (numeros.length >= 2  ) {
+    insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
+    insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
+    insertarValor('promedio-anual', tipo, obtenerPromedio(numeros));
+    insertarValor('promedio-mensual', tipo, obtenerPromedio(numerosParaSalarioMensual));
 
-function manejarSalarios(salarios){
-  const $contenedorSalarioMayor = document.querySelector('#mayor-salario');
-  const $contenedorSalarioMenor = document.querySelector('#menor-salario');
-  const $contenedorSalarioPromedioAnual = document.querySelector('#promedio-salario-anual');
-  const $contenedorSalarioPromedioMensual = document.querySelector('#promedio-salario-mensual');
-  let salariosMensuales = [];
-
-  for (let i = 0; i < salarios.length; i++) {
-    salariosMensuales.push(salarios[i] / 12);
+    mostrarElemento('resultado-salarios')
+  } else {
+    alert('Ingresa al menos dos salarios')
   }
 
-  $contenedorSalarioMayor.textContent = `El mayor salario es: $${obtenerMayorNumero(salarios)}`;
-  $contenedorSalarioMenor.textContent = `El menor salario es: $${obtenerMenorNumero(salarios)}`;
-  $contenedorSalarioPromedioAnual.textContent = `El promedio de salarios anual es: $${obtenerPromedio(salarios)} (aproximadamente)`;
-  $contenedorSalarioPromedioMensual.textContent = `El promedio de salarios mensual es: $${obtenerPromedio(salariosMensuales)} (aproximadamente)`;
+  e.preventDefault();
 }

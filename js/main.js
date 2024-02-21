@@ -8,7 +8,7 @@ $botonIngresar.onclick = function(e) {
   const cantidadFamiliares = Number($cantidadFamiliares.value);
 
   crearFamiliares(cantidadFamiliares);
-  AgregarSalarios();
+  agregarSalarios();
 
   e.preventDefault()
 }
@@ -55,65 +55,42 @@ function crearFamiliar(indice){
   $contenedorFamiliares.appendChild($campoFamiliar);
 }
 
-$botonCalcularEdades.onclick = function() {
-  const $edadesFamiliares = document.querySelectorAll('.edades');
-  const edades = [];
+$botonCalcularEdades.onclick = function(e) {
+  const numeros = obtenerNumeros('edades');
+  const tipo = 'edad'
 
-  for (let i = 0; i < $edadesFamiliares.length; i++) {
-    if ($edadesFamiliares[i].value) {
-      edades.push(Number($edadesFamiliares[i].value));
+  if (numeros.length >= 2) {
+    insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
+    insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
+    insertarValor('promedio', tipo, obtenerPromedio(numeros));
+
+    mostrarElemento('resultado-edades')
+  } else {
+    alert('Por favor, ingresá al menos dos edades para relizar los calculos')
+  }
+
+  e.preventDefault()
+}
+
+function mostrarElemento(id) {
+  document.querySelector(`#${id}`).className = '';
+}
+
+function insertarValor(media, tipo, valor) {
+  document.querySelector(`#${media}-${tipo}`).textContent = valor;
+}
+
+function obtenerNumeros(tipo){
+  const $numeros = document.querySelectorAll(`.${tipo}`);
+  const numeros = [];
+
+  for (let i = 0; i < $numeros.length; i++) {
+    if ($numeros[i].value) {
+      numeros.push(Number($numeros[i].value));
     }
   }
 
-  edades.length >= 2 ? manejarEdades(edades) : alert('Ingresá al menos dos edades');
-}
-
-function manejarEdades(edades) {
-  const $contendorMayorEdad = document.querySelector('#mayor-edad');
-  const $contendorMenorEdad = document.querySelector('#menor-edad');
-  const $contendorPromedioEdades = document.querySelector('#promedio-edad');
-
-  const mayorEdad = obtenerMayorNumero(edades);
-  const menorEdad = obtenerMenorNumero(edades);
-  const promedioEdades = obtenerPromedio(edades);
-
-  $contendorMayorEdad.textContent = `La mayor edad es: ${mayorEdad}`;
-  $contendorMenorEdad.textContent = `La menor edad es: ${menorEdad}`;
-  $contendorPromedioEdades.textContent = `El promedio de edades es: ${promedioEdades} (aproximadamente)`;
-}
-
-function obtenerMayorNumero(numeros) {
-  let mayorNumero = 0;
-
-  for (let i = 0; i < numeros.length; i++) {
-    if (mayorNumero < numeros[i]) {
-      mayorNumero = numeros[i]
-    }
-  }
-
-  return mayorNumero;
-}
-
-function obtenerMenorNumero(numeros) {
-  let menorNumero = numeros[0];
-
-  for (let i = 0; i < numeros.length; i++) {
-    if (menorNumero > numeros[i]) {
-      menorNumero = numeros[i]
-    }
-  }
-
-  return menorNumero;
-}
-
-function obtenerPromedio(numeros) {
-  let numerosSumados = 0;
-
-  for (let i = 0; i < numeros.length; i++) {
-    numerosSumados += numeros[i];
-  }
-
-  return Math.floor(numerosSumados / numeros.length)
+  return numeros;
 }
 
 $botonReiniciar.onclick = function (){
@@ -139,20 +116,20 @@ $botonReiniciar.onclick = function (){
   }
 }
 
-function AgregarSalarios(){
+function agregarSalarios(){
   const $botonesSalario = document.querySelectorAll('.boton-salario');
   const $botonCalcularSalarios = document.querySelector('#calcular-salarios')
 
   for (let i  = 0; i < $botonesSalario.length; i++) {
     $botonesSalario[i].onclick = function() {
-      agregarSalarios($botonesSalario[i],i);
+      agregarSalario($botonesSalario[i],i);
       $botonCalcularSalarios.className = '';
       return false;
     }
   }
 }
 
-function agregarSalarios(boton, i){
+function agregarSalario(boton, i){
   boton.className = 'ocultar';
   const $textoSalario = document.createElement('label');
   const $campoSalario = document.createElement('input');

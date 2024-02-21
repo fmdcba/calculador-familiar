@@ -1,9 +1,4 @@
-const $botonIngresar = document.querySelector('#crear-familiares');
-const $botonCalcularEdades = document.querySelector('#calcular-edades');
-const $botonReiniciar = document.querySelector('#reiniciar');
-const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
-
-$botonIngresar.onclick = function(e) {
+document.querySelector('#crear-familiares').onclick = function(e) {
   const $cantidadFamiliares = document.querySelector('#cantidad-familiares');
   const cantidadFamiliares = Number($cantidadFamiliares.value);
 
@@ -16,11 +11,9 @@ $botonIngresar.onclick = function(e) {
 function crearFamiliares(cantidadFamiliares){
 
   if (cantidadFamiliares > 0) {
-    $botonIngresar.className = 'ocultar';
-    $botonReiniciar.className = '';
-
-    const $botonCalcularEdades = document.querySelector('#calcular-edades');
-    $botonCalcularEdades.className = '';
+    ocultarElemento('crear-familiares');
+    mostrarElemento('reiniciar');
+    mostrarElemento('calcular-edades');
 
     for (let i = 0; i < cantidadFamiliares; i++){
       crearFamiliar(i);
@@ -55,7 +48,7 @@ function crearFamiliar(indice){
   $contenedorFamiliares.appendChild($campoFamiliar);
 }
 
-$botonCalcularEdades.onclick = function(e) {
+document.querySelector('#calcular-edades').onclick = function(e) {
   const numeros = obtenerNumeros('edades');
   const tipo = 'edad'
 
@@ -72,14 +65,6 @@ $botonCalcularEdades.onclick = function(e) {
   e.preventDefault()
 }
 
-function mostrarElemento(id) {
-  document.querySelector(`#${id}`).className = '';
-}
-
-function insertarValor(media, tipo, valor) {
-  document.querySelector(`#${media}-${tipo}`).textContent = valor;
-}
-
 function obtenerNumeros(tipo){
   const $numeros = document.querySelectorAll(`.${tipo}`);
   const numeros = [];
@@ -93,11 +78,23 @@ function obtenerNumeros(tipo){
   return numeros;
 }
 
-$botonReiniciar.onclick = function (){
-  $botonIngresar.className = '';
-  $botonReiniciar.className = 'ocultar';
-  $botonCalcularEdades.className = 'ocultar';
-  $botonCalcularSalarios.className = 'ocultar';
+function mostrarElemento(id) {
+  document.querySelector(`#${id}`).className = '';
+}
+
+function ocultarElemento(id) {
+  document.querySelector(`#${id}`).className = 'ocultar';
+}
+
+function insertarValor(media, tipo, valor) {
+  document.querySelector(`#${media}-${tipo}`).textContent = valor;
+}
+
+document.querySelector('#reiniciar').onclick = function (){
+  mostrarElemento('crear-familiares');
+  ocultarElemento('reiniciar');
+  ocultarElemento('calcular-edades');
+  ocultarElemento('calcular-salarios');
 
   document.querySelector('#mayor-edad').textContent = '';
   document.querySelector('#menor-edad').textContent = '';
@@ -194,7 +191,7 @@ function removerCamposSalario(numero, boton) {
   }
 }
 
-$botonCalcularSalarios.onclick = function () {
+document.querySelector('#calcular-salarios').onclick = function () {
   const $salariosIngresados = document.querySelectorAll('.campo-salario');
   const salarios = [];
 

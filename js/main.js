@@ -218,12 +218,12 @@ function validarCantidadFamiliares(cantidadFamiliares){
     return 'Ingresa la cantidad de familiares para continuar';
   }
 
-  if (cantidadFamiliares < 2) {
-    return 'Este campo solo admite valores positivos y mayores a 1';
+  if (Number.isInteger(cantidadFamiliares) === false) {
+    return 'Este campo no admite decimales';
   }
 
-  if (Number.isInteger(cantidadFamiliares) === false) {
-    return "Este campo no admite decimales";
+  if (cantidadFamiliares < 2) {
+    return 'Este campo solo admite valores positivos y mayores a 1';
   }
 
   if (cantidadFamiliares >= 15) {
@@ -238,21 +238,21 @@ function validarEdadesFamiliares(edades){
     return 'Ingresa algun valor';
   }
 
-  if (edades.includes(0)) {
-    return 'Este campo no acepta valores iguales a 0';
-  }
-
   for (let i = 0; i < edades.length; i++) {
+    if (edades[i] === 0) {
+      return 'Este campo no acepta valores iguales a 0';
+    }
+
     if (edades[i] > 125) {
       return 'Este campo no acepta edades mayores a 125';
     }
 
     if (edades[i] < 0) {
-      return 'Este campo solo acepta numeros positivos'
+      return 'Este campo solo acepta números positivos'
     }
 
     if (Number.isInteger(edades[i]) === false) {
-      return "Las edades no pueden tener decimales";
+      return 'Las edades no pueden tener decimales';
     }
 
   }
@@ -265,14 +265,13 @@ function validarSalariosFamiliares(salarios){
     return 'Ingresa algun valor';
   }
 
-  if (salarios.includes(0)) {
-    return 'Este campo no acepta valores iguales a 0';
-  }
-
   for (let i = 0; i < salarios.length; i++) {
+    if (salarios[i] === 0) {
+      return 'Este campo no acepta valores iguales a 0';
+    }
 
     if (salarios[i] < 0) {
-      return 'Este campo solo acepta numeros positivos'
+      return 'Este campo solo acepta números positivos'
     }
   }
 

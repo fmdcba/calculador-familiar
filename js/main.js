@@ -2,9 +2,10 @@ document.querySelector('#crear-familiares').onclick = function(e) {
   const $cantidadFamiliares = document.querySelector('#cantidad-familiares');
   const cantidadFamiliares = Number($cantidadFamiliares.value);
 
-  crearFamiliares(cantidadFamiliares);
-  manejarSalarios();
-
+  if(procesarValidacion(validarCantidadFamiliares(cantidadFamiliares)) === '') {
+    crearFamiliares(cantidadFamiliares);
+    manejarSalarios();
+  }
 
   e.preventDefault();
 }
@@ -53,14 +54,12 @@ document.querySelector('#calcular-edades').onclick = function(e) {
   const numeros = obtenerNumeros('edades');
   const tipo = 'edad';
 
-  if (numeros.length >= 2) {
+  if (procesarValidacion(validarEdadesFamiliares(numeros)) === '') {
     insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
     insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
     insertarValor('promedio', tipo, obtenerPromedio(numeros));
 
     mostrarElemento('resultado-edades');
-  } else {
-    alert('Por favor, ingresá al menos dos edades para relizar los calculos');
   }
 
   e.preventDefault()
@@ -102,8 +101,8 @@ document.querySelector('#reiniciar').onclick = function (){
   document.querySelector('#promedio-edad').textContent = '';
   document.querySelector('#mayor-salario').textContent = '';
   document.querySelector('#menor-salario').textContent = '';
-  document.querySelector('#promedio-salario-anual').textContent = '';
-  document.querySelector('#promedio-salario-mensual').textContent = '';
+  document.querySelector('#promedio-anual-salario').textContent = '';
+  document.querySelector('#promedio-mensual-salario').textContent = '';
 
 
   const $familiares = document.querySelectorAll('.familiar');
@@ -150,13 +149,10 @@ function crearSalario(indice){
   $botonCancelar.className = 'boton-cancelar-salario';
 
   const $camposFamiliar = document.querySelectorAll('.familiar');
-  let campoAgregado = false;
 
-  for (indice; campoAgregado === false; campoAgregado = true) {
-    $camposFamiliar[indice].appendChild($textoSalario);
-    $camposFamiliar[indice].appendChild($campoSalario);
-    $camposFamiliar[indice].appendChild($botonCancelar);
-  }
+  $camposFamiliar[indice].appendChild($textoSalario);
+  $camposFamiliar[indice].appendChild($campoSalario);
+  $camposFamiliar[indice].appendChild($botonCancelar);
 }
 
 function manejarBotonesCancelarSalario(){
@@ -205,16 +201,99 @@ document.querySelector('#calcular-salarios').onclick = function (e) {
     numerosParaSalarioMensual.push(numeros[i] / 12);
   }
 
-  if (numeros.length >= 2 ) {
+  if (procesarValidacion(validarSalariosFamiliares(numeros)) === '') {
     insertarValor('mayor', tipo, obtenerMayorNumero(numeros));
     insertarValor('menor' , tipo, obtenerMenorNumero(numeros));
     insertarValor('promedio-anual', tipo, obtenerPromedio(numeros));
     insertarValor('promedio-mensual', tipo, obtenerPromedio(numerosParaSalarioMensual));
 
     mostrarElemento('resultado-salarios');
-  } else {
-    alert('Ingresa al menos dos salarios');
   }
 
   e.preventDefault();
+}
+
+function validarCantidadFamiliares(cantidadFamiliares){
+  if (!cantidadFamiliares) {
+    return 'Ingresa la cantidad de familiares para continuar';
+  }
+
+  if (cantidadFamiliares < 2) {
+    return 'Este campo solo admite valores positivos y mayores a 1';
+  }
+
+  if (Number.isInteger(cantidadFamiliares) === false) {
+    return "Este campo no admite decimales";
+  }
+
+  if (cantidadFamiliares >= 15) {
+    return 'Esos son muchos familiares! Ingresá una cantidad de familiares menor a 15';
+  }
+
+  return '';
+}
+
+function validarEdadesFamiliares(edades){
+  if (edades.length === 0) {
+    return 'Ingresa algun valor';
+  }
+
+  if (edades.includes(0)) {
+    return 'Este campo no acepta valores iguales a 0';
+  }
+
+  for (let i = 0; i < edades.length; i++) {
+    if (edades[i] > 125) {
+      return 'Este campo no acepta edades mayores a 125';
+    }
+
+    if (edades[i] < 0) {
+      return 'Este campo solo acepta numeros positivos'
+    }
+
+    if (Number.isInteger(edades[i]) === false) {
+      return "Las edades no pueden tener decimales";
+    }
+
+  }
+
+  return '';
+}
+
+function validarSalariosFamiliares(salarios){
+  if (salarios.length === 0) {
+    return 'Ingresa algun valor';
+  }
+
+  if (salarios.includes(0)) {
+    return 'Este campo no acepta valores iguales a 0';
+  }
+
+  for (let i = 0; i < salarios.length; i++) {
+
+    if (salarios[i] < 0) {
+      return 'Este campo solo acepta numeros positivos'
+    }
+  }
+
+  return '';
+}
+
+function procesarValidacion(validacion){
+  const $contendorError = document.querySelector('#errores');
+  const $erroresPrevios = $contendorError.children[0];
+
+  if($erroresPrevios) {
+    $erroresPrevios.remove()
+  }
+
+  if (validacion !== '') {
+    const $error = document.createElement('p');
+    $error.textContent = validacion;
+    $error.id = 'error';
+
+    $contendorError.appendChild($error)
+  } else {
+    return '';
+  }
 }

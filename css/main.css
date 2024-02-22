@@ -9,6 +9,10 @@ body {
   margin-right: auto;
 }
 
+#campo-error {
+  border: 2px solid red;
+};
+
 #resultados {
   display: grid;
   grid-auto-flow: column;
